@@ -1,13 +1,20 @@
-import { useState } from 'react'
+import { BrowserRouter, Routes, Route } from "react-router"
+import MoviesList from "./pages/MovieList";
+import MovieDetails from "./pages/MovieDetails";
+import Wishlist from "./pages/Wishlist";
+import Navbar from "./components/Navbar";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div>
-      <h1>Hello World !</h1>
-    </div>
-  )
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<MoviesList />} />
+        <Route path="/movie/:id" element={<MovieDetails />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
