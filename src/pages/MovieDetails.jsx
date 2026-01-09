@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import BoutonWishlist from "../components/BoutonWishlist.jsx";
 import MovieCard from "../components/MovieCard.jsx";
-import { API_KEY, BASE_URL } from '../constantes.js'
 import "../styles/MovieDetail.css";
 
 function MovieDetail() {
+
+  const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [cast, setCast] = useState([]);
@@ -20,17 +22,17 @@ function MovieDetail() {
     setLoading(true);
 
     const movieRes = await fetch(
-      `${BASE_URL}movie/${id}?api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
     );
     const movieData = await movieRes.json();
 
     const creditsRes = await fetch(
-      `${BASE_URL}movie/${id}/credits?api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`
     );
     const creditsData = await creditsRes.json();
 
     const similarRes = await fetch(
-      `${BASE_URL}movie/${id}/similar?api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${API_KEY}`
     );
     const similarData = await similarRes.json();
 
@@ -59,7 +61,7 @@ function MovieDetail() {
           <p><strong>Date de sortie :</strong> {movie.release_date}</p>
           <p><strong>Note :</strong> ⭐ {movie.vote_average}</p>
         </div>
-        
+
         <div className="detailsBouton">
           <BoutonWishlist movie={movie} />
         </div>

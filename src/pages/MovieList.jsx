@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard.jsx";
 import SearchBar from "../components/SearchBar.jsx";
-import { API_KEY, BASE_URL } from '../constantes.js';
 import "../styles/MovieList.css";
 
 function MovieList() {
+
+  const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+
   const [movies, setMovies] = useState([]);
   const [category, setCategory] = useState("popular");
   const [search, setSearch] = useState("");
@@ -21,7 +23,7 @@ function MovieList() {
   const fetchMovies = async () => {
     setLoading(true);
 
-    const url = `${BASE_URL}movie/${category}?api_key=${API_KEY}`;
+    const url = `https://api.themoviedb.org/3/movie/${category}?api_key=${API_KEY}`;
 
     const response = await fetch(url);
     const data = await response.json();
