@@ -8,6 +8,10 @@
   position: relative;
 }
 
+.card a {
+  text-decoration: none;
+}
+
 .card:hover {
   transform: scale(1.03);
 }
@@ -33,18 +37,4 @@
 .rating {
   color: #f5c518;
   margin-bottom: 0.75rem;
-}
-
-.button {
-  display: inline-block;
-  padding: 0.4rem 0.8rem;
-  background-color: #e50914;
-  color: #ffffff;
-  text-decoration: none;
-  border-radius: 4px;
-  font-size: 0.9rem;
-}
-
-.button:hover {
-  background-color: #b20710;
 }

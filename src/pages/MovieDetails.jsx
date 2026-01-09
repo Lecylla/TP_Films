@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import BoutonWishlist from "../components/BoutonWishlist.jsx";
 import MovieCard from "../components/MovieCard.jsx";
-import styles from "../styles/MovieDetail.module.css";
-import { API_KEY, BASE_URL } from '../api/constantes.js'
+import { API_KEY, BASE_URL } from '../constantes.js'
+import "../styles/MovieDetail.css";
 
 function MovieDetail() {
   const { id } = useParams();
@@ -48,27 +48,27 @@ function MovieDetail() {
     : null;
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       {/* Détails du film */}
-      <div className={styles.details}>
-        {imageUrl && <img src={imageUrl} alt={movie.title} />}
+      <div className="details">
+        {imageUrl && <img src={imageUrl} alt={movie.title} width={300} />}
 
         <div>
           <h2>{movie.title}</h2>
           <p>{movie.overview}</p>
           <p><strong>Date de sortie :</strong> {movie.release_date}</p>
           <p><strong>Note :</strong> ⭐ {movie.vote_average}</p>
-          
-          <div className={styles.detailsBouton}>
-            <BoutonWishlist movie={movie} />
-          </div>
+        </div>
+        
+        <div className="detailsBouton">
+          <BoutonWishlist movie={movie} />
         </div>
       </div>
 
       {/* Acteurs */}
-      <section className={styles.section}>
+      <section className="section">
         <h3>Acteurs principaux</h3>
-        <ul className={styles.cast}>
+        <ul className="cast">
           {cast.map((actor) => (
             <li key={actor.id}>
               {actor.name} – {actor.character}
@@ -78,9 +78,9 @@ function MovieDetail() {
       </section>
 
       {/* Films similaires */}
-      <section className={styles.section}>
+      <section className="section">
         <h3>Films similaires</h3>
-        <div className={styles.grid}>
+        <div className="grid">
           {similarMovies.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
           ))}

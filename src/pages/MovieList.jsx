@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import MovieCard from "../components/MovieCard";
-import styles from '../styles/MovieList.module.css'
-import { API_KEY, BASE_URL } from '../api/constantes.js'
+import MovieCard from "../components/MovieCard.jsx";
+import SearchBar from "../components/SearchBar.jsx";
+import { API_KEY, BASE_URL } from '../constantes.js';
+import "../styles/MovieList.css";
 
 function MovieList() {
   const [movies, setMovies] = useState([]);
@@ -30,18 +31,16 @@ function MovieList() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       {/* Recherche */}
-      <input
-        type="text"
-        placeholder="Rechercher un film..."
+      <SearchBar
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className={styles.search}
+        onChange={setSearch}
+        className="search"
       />
 
       {/* Catégories */}
-      <div className={styles.categories}>
+      <div className="categories">
         <button onClick={() => setCategory("now_playing")}>Now Playing</button>
         <button onClick={() => setCategory("popular")}>Popular</button>
         <button onClick={() => setCategory("top_rated")}>Top Rated</button>
@@ -52,7 +51,7 @@ function MovieList() {
       {loading ? (
         <p>Chargement...</p>
       ) : (
-        <div className={styles.grid}>
+        <div className="grid">
           {filteredMovies.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
           ))}

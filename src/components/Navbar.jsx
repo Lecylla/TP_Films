@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { useContext } from "react";
-import { WishlistContext } from "../context/WishlistProvider";
-import styles from '../styles/Navbar.module.css'
+import { WishlistContext } from "../context/WishlistProvider.jsx";
+import styles from '../styles/modules/Navbar.module.css'
 
 function Navbar() {
     const { wishlist } = useContext(WishlistContext);

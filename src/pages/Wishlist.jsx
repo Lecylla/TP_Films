@@ -1,10 +1,11 @@
 import { useContext, useState } from "react";
-import { WishlistContext } from "../context/WishlistProvider";
-import MovieCard from "../components/MovieCard";
-import styles from "../styles/Wishlist.module.css"
+import { WishlistContext } from "../context/WishlistProvider.jsx";
+import MovieCard from "../components/MovieCard.jsx";
+import SearchBar from "../components/SearchBar.jsx";
+import "../styles/Wishlist.css"
 
 function Wishlist() {
-  const { wishlist, removeFromWishlist } = useContext(WishlistContext);
+  const { wishlist } = useContext(WishlistContext);
   const [search, setSearch] = useState("");
 
   const filteredWishlist = wishlist.filter((movie) =>
@@ -12,21 +13,18 @@ function Wishlist() {
   );
 
   return (
-    <div className={styles.container}>
-      <input
-        type="text"
-        placeholder="Rechercher un film..."
+    <div className="container">
+      <SearchBar
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className={styles.search}
+        onChange={setSearch}
       />
 
       {filteredWishlist.length === 0 ? (
         <p>Aucun film dans la wishlist.</p>
       ) : (
-        <div className={styles.grid}>
+        <div className="grid">
           {filteredWishlist.map((movie) => (
-            <div key={movie.id} className={styles.cardWrapper}>
+            <div key={movie.id} className="cardWrapper">
               <MovieCard movie={movie} />
             </div>
           ))}

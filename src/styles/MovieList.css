@@ -13,18 +13,6 @@
   cursor: pointer;
 }
 
-.search {
-  padding: 0.5rem;
-  margin-bottom: 1.5rem;
-  width: 250px;
-}
-
-.search input {
-  padding: 0.5rem;
-  width: 250px;
-  margin-right: 0.5rem;
-}
-
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

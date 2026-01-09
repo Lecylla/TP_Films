@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import BoutonWishlist from "../components/BoutonWishlist.jsx";
-import styles from "../styles/MovieCard.module.css";
+import styles from "../styles/modules/MovieCard.module.css";
 
 const MovieCard = ({ movie }) => {
   const imageUrl = movie.poster_path
@@ -10,20 +10,18 @@ const MovieCard = ({ movie }) => {
   return (
     <div className={styles.card}>
       <BoutonWishlist movie={movie} />
-      <img
-        src={imageUrl}
-        alt={movie.title}
-        className={styles.poster}
-      />
+      <Link to={`/movie/${movie.id}`} >
+        <img
+          src={imageUrl}
+          alt={movie.title}
+          className={styles.poster}
+        />
 
-      <div className={styles.content}>
-        <h3 className={styles.title}>{movie.title}</h3>
-        <p className={styles.rating}>⭐ {movie.vote_average}</p>
-
-        <Link to={`/movie/${movie.id}`} className={styles.button}>
-          Voir les détails
-        </Link>
-      </div>
+        <div className={styles.content}>
+          <h3 className={styles.title}>{movie.title}</h3>
+          <p className={styles.rating}>⭐ {movie.vote_average}</p>
+        </div>
+      </Link>
     </div>
   );
 };

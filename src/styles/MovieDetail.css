@@ -8,11 +8,6 @@
   margin-bottom: 2rem;
 }
 
-.details img {
-  width: 300px;
-  border-radius: 8px;
-}
-
 .section {
   margin-top: 2rem;
 }
@@ -30,5 +25,6 @@
 
 .detailsBouton {
   position: relative;
-  right: 920px;
+  top: 200px;
+  right: 1010px;
 }

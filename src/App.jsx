@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router"
-import MoviesList from "./pages/MovieList";
-import MovieDetails from "./pages/MovieDetails";
-import Wishlist from "./pages/WishList";
-import Navbar from "./components/Navbar";
+import MoviesList from "./pages/MovieList.jsx";
+import MovieDetails from "./pages/MovieDetails.jsx";
+import Wishlist from "./pages/WishList.jsx";
+import Navbar from "./components/Navbar.jsx";
 import "./styles/index.css";
 
 function App() {
