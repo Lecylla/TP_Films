@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
 import styles from '../styles/MovieList.module.css'
-import { API_KEY, JETON_API, BASE_URL } from '../api/tmdb.js'
+import { API_KEY, BASE_URL } from '../api/tmdb.js'
 
 function MovieList() {
   const [movies, setMovies] = useState([]);
