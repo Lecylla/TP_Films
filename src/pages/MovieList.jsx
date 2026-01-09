@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard.jsx";
 import SearchBar from "../components/SearchBar.jsx";
+import Pagination from "../components/Pagination.jsx";
 import "../styles/MovieList.css";
 
 function MovieList() {
@@ -11,6 +12,8 @@ function MovieList() {
   const [category, setCategory] = useState("popular");
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const filteredMovies = movies.filter((movie) =>
     movie.title.toUpperCase().includes(search.toUpperCase())
@@ -18,17 +21,18 @@ function MovieList() {
 
   useEffect(() => {
     fetchMovies();
-  }, [category]);
+  }, [category, page]);
 
   const fetchMovies = async () => {
     setLoading(true);
 
-    const url = `https://api.themoviedb.org/3/movie/${category}?api_key=${API_KEY}`;
+    const url = `https://api.themoviedb.org/3/movie/${category}?api_key=${API_KEY}&page=${page}`;
 
     const response = await fetch(url);
     const data = await response.json();
 
     setMovies(data.results);
+    setTotalPages(data.total_pages);
     setLoading(false);
   };
 
@@ -53,10 +57,17 @@ function MovieList() {
       {loading ? (
         <p>Chargement...</p>
       ) : (
-        <div className="grid">
-          {filteredMovies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))}
+        <div>
+          <div className="grid">
+            {filteredMovies.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </div>
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={(newPage) => setPage(newPage)}
+          />
         </div>
       )}
     </div>
