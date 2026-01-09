@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router"
 import MoviesList from "./pages/MovieList";
 import MovieDetails from "./pages/MovieDetails";
-import Wishlist from "./pages/Wishlist";
+import Wishlist from "./pages/WishList";
 import Navbar from "./components/Navbar";
+import "./styles/index.css";
 
 function App() {
   return (

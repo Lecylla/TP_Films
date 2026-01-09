@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { WishlistContext } from "../context/WishlistProvider";
 import MovieCard from "../components/MovieCard.jsx";
 import styles from "../styles/MovieDetail.module.css";
-import { API_KEY, BASE_URL } from '../api/tmdb.js'
+import { API_KEY, BASE_URL } from '../api/constantes.js'
 
 function MovieDetail() {
   const { id } = useParams();
@@ -24,17 +24,17 @@ function MovieDetail() {
     setLoading(true);
 
     const movieRes = await fetch(
-      `${BASE_URL}movie/${id}?api_key=${API_KEY}&language=fr-FR`
+      `${BASE_URL}movie/${id}?api_key=${API_KEY}`
     );
     const movieData = await movieRes.json();
 
     const creditsRes = await fetch(
-      `${BASE_URL}movie/${id}/credits?api_key=${API_KEY}&language=fr-FR`
+      `${BASE_URL}movie/${id}/credits?api_key=${API_KEY}`
     );
     const creditsData = await creditsRes.json();
 
     const similarRes = await fetch(
-      `${BASE_URL}movie/${id}/similar?api_key=${API_KEY}&language=fr-FR`
+      `${BASE_URL}movie/${id}/similar?api_key=${API_KEY}`
     );
     const similarData = await similarRes.json();
 
