@@ -1,0 +1,20 @@
+.container {
+  padding: 2rem;
+}
+
+.categories {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.categories button {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+}

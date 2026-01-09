@@ -1,0 +1,40 @@
+.card {
+  background-color: #1c1c1c;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease;
+  position: relative;
+}
+
+.card a {
+  text-decoration: none;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+.poster {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+.content {
+  padding: 1rem;
+  text-align: center;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.rating {
+  color: #f5c518;
+  margin-bottom: 0.75rem;
+}
