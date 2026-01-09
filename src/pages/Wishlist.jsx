@@ -13,8 +13,6 @@ function Wishlist() {
 
   return (
     <div className={styles.container}>
-      <h2>Ma Wishlist</h2>
-
       <input
         type="text"
         placeholder="Rechercher un film..."

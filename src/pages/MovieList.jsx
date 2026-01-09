@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
 import styles from '../styles/MovieList.module.css'
-import { API_KEY, BASE_URL } from '../api/tmdb.js'
+import { API_KEY, BASE_URL } from '../api/constantes.js'
 
 function MovieList() {
   const [movies, setMovies] = useState([]);
   const [category, setCategory] = useState("popular");
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const filteredMovies = movies.filter((movie) =>
+    movie.title.toUpperCase().includes(search.toUpperCase())
+  );
 
   useEffect(() => {
     fetchMovies();
@@ -25,23 +29,16 @@ function MovieList() {
     setLoading(false);
   };
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    if (!search.trim()) return;
-
-    setLoading(true);
-
-    const url = `${BASE_URL}search/movie?api_key=${API_KEY}&query=${search}`;
-    const response = await fetch(url);
-    const data = await response.json();
-
-    setMovies(data.results);
-    setLoading(false);
-  };
-
   return (
     <div className={styles.container}>
-      <h2>Films</h2>
+      {/* Recherche */}
+      <input
+        type="text"
+        placeholder="Rechercher un film..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className={styles.search}
+      />
 
       {/* Catégories */}
       <div className={styles.categories}>
@@ -51,23 +48,12 @@ function MovieList() {
         <button onClick={() => setCategory("upcoming")}>Upcoming</button>
       </div>
 
-      {/* Recherche */}
-      <form onSubmit={handleSearch} className={styles.search}>
-        <input
-          type="text"
-          placeholder="Rechercher un film..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <button type="submit">Rechercher</button>
-      </form>
-
       {/* Liste */}
       {loading ? (
         <p>Chargement...</p>
       ) : (
         <div className={styles.grid}>
-          {movies.map((movie) => (
+          {filteredMovies.map((movie) => (
             <MovieCard key={movie.id} movie={movie} />
           ))}
         </div>

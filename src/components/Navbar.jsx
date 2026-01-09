@@ -8,7 +8,7 @@ function Navbar() {
 
     return (
         <nav className={styles.navbar}>
-            <h1 className={styles.logo}>MovieApp</h1>
+            <h1 className={styles.logo}>InfoFilms</h1>
 
             <ul className={styles.links}>
                 <li>
