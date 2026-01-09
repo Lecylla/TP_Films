@@ -2,45 +2,58 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import BoutonWishlist from "../components/BoutonWishlist.jsx";
 import MovieCard from "../components/MovieCard.jsx";
+import Pagination from "../components/Pagination.jsx";
 import "../styles/MovieDetail.css";
 
 function MovieDetail() {
-
   const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-
   const { id } = useParams();
+
   const [movie, setMovie] = useState(null);
   const [cast, setCast] = useState([]);
   const [similarMovies, setSimilarMovies] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [similarPage, setSimilarPage] = useState(1);
+  const [similarTotalPages, setSimilarTotalPages] = useState(1);
+
+  // --- Fetch details et cast ---
   useEffect(() => {
+    const fetchMovieDetails = async () => {
+      setLoading(true);
+
+      const movieRes = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
+      );
+      const movieData = await movieRes.json();
+
+      const creditsRes = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`
+      );
+      const creditsData = await creditsRes.json();
+
+      setMovie(movieData);
+      setCast(creditsData.cast.slice(0, 10));
+      setLoading(false);
+    };
+
     fetchMovieDetails();
   }, [id]);
 
-  const fetchMovieDetails = async () => {
-    setLoading(true);
+  // --- Fetch films similaires avec pagination ---
+  useEffect(() => {
+    const fetchSimilarMovies = async () => {
+      const similarRes = await fetch(
+        `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${API_KEY}&page=${similarPage}`
+      );
+      const similarData = await similarRes.json();
 
-    const movieRes = await fetch(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
-    );
-    const movieData = await movieRes.json();
+      setSimilarMovies(similarData.results);
+      setSimilarTotalPages(similarData.total_pages);
+    };
 
-    const creditsRes = await fetch(
-      `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}`
-    );
-    const creditsData = await creditsRes.json();
-
-    const similarRes = await fetch(
-      `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${API_KEY}`
-    );
-    const similarData = await similarRes.json();
-
-    setMovie(movieData);
-    setCast(creditsData.cast.slice(0, 10));
-    setSimilarMovies(similarData.results);
-    setLoading(false);
-  };
+    fetchSimilarMovies();
+  }, [id, similarPage]); // refetch si id ou page change
 
   if (loading) return <p>Chargement...</p>;
   if (!movie) return <p>Film introuvable</p>;
@@ -54,14 +67,12 @@ function MovieDetail() {
       {/* Détails du film */}
       <div className="details">
         {imageUrl && <img src={imageUrl} alt={movie.title} width={300} />}
-
         <div>
           <h2>{movie.title}</h2>
           <p>{movie.overview}</p>
           <p><strong>Date de sortie :</strong> {movie.release_date}</p>
           <p><strong>Note :</strong> ⭐ {movie.vote_average}</p>
         </div>
-
         <div className="detailsBouton">
           <BoutonWishlist movie={movie} />
         </div>
@@ -87,6 +98,13 @@ function MovieDetail() {
             <MovieCard key={movie.id} movie={movie} />
           ))}
         </div>
+
+        {/* Pagination */}
+        <Pagination
+          currentPage={similarPage}
+          totalPages={similarTotalPages}
+          onPageChange={(newPage) => setSimilarPage(newPage)}
+        />
       </section>
     </div>
   );

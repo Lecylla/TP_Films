@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard.jsx";
 import SearchBar from "../components/SearchBar.jsx";
+import Pagination from "../components/Pagination.jsx";
 import "../styles/MovieList.css";
 
 function MovieList() {
@@ -9,37 +10,51 @@ function MovieList() {
 
   const [movies, setMovies] = useState([]);
   const [category, setCategory] = useState("popular");
-  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
-
-  const filteredMovies = movies.filter((movie) =>
-    movie.title.toUpperCase().includes(search.toUpperCase())
-  );
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
+    if (isSearching) return;
     fetchMovies();
-  }, [category]);
+  }, [category, page, isSearching]);
+
 
   const fetchMovies = async () => {
     setLoading(true);
 
-    const url = `https://api.themoviedb.org/3/movie/${category}?api_key=${API_KEY}`;
+    const url = `https://api.themoviedb.org/3/movie/${category}?api_key=${API_KEY}&page=${page}`;
 
-    const response = await fetch(url);
-    const data = await response.json();
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
 
-    setMovies(data.results);
-    setLoading(false);
+      setMovies(data.results);
+      setTotalPages(data.total_pages);
+    } catch (err) {
+      console.error("Erreur catégories :", err);
+    } finally {
+      setLoading(false);
+    }
   };
+
 
   return (
     <div className="container">
       {/* Recherche */}
       <SearchBar
-        value={search}
-        onChange={setSearch}
-        className="search"
+        onResults={(results) => {
+          setMovies(results);
+          setLoading(false);
+        }}
+        onSearchStateChange={(state) => {
+          setIsSearching(state);
+          setPage(1);
+        }}
+        page={page}
       />
+
 
       {/* Catégories */}
       <div className="categories">
@@ -53,10 +68,17 @@ function MovieList() {
       {loading ? (
         <p>Chargement...</p>
       ) : (
-        <div className="grid">
-          {filteredMovies.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))}
+        <div>
+          <div className="grid">
+            {movies.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </div>
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={(newPage) => setPage(newPage)}
+          />
         </div>
       )}
     </div>
