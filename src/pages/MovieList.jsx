@@ -10,40 +10,51 @@ function MovieList() {
 
   const [movies, setMovies] = useState([]);
   const [category, setCategory] = useState("popular");
-  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
-  const filteredMovies = movies.filter((movie) =>
-    movie.title.toUpperCase().includes(search.toUpperCase())
-  );
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
+    if (isSearching) return;
     fetchMovies();
-  }, [category, page]);
+  }, [category, page, isSearching]);
+
 
   const fetchMovies = async () => {
     setLoading(true);
 
     const url = `https://api.themoviedb.org/3/movie/${category}?api_key=${API_KEY}&page=${page}`;
 
-    const response = await fetch(url);
-    const data = await response.json();
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
 
-    setMovies(data.results);
-    setTotalPages(data.total_pages);
-    setLoading(false);
+      setMovies(data.results);
+      setTotalPages(data.total_pages);
+    } catch (err) {
+      console.error("Erreur catégories :", err);
+    } finally {
+      setLoading(false);
+    }
   };
+
 
   return (
     <div className="container">
       {/* Recherche */}
       <SearchBar
-        value={search}
-        onChange={setSearch}
-        className="search"
+        onResults={(results) => {
+          setMovies(results);
+          setLoading(false);
+        }}
+        onSearchStateChange={(state) => {
+          setIsSearching(state);
+          setPage(1);
+        }}
+        page={page}
       />
+
 
       {/* Catégories */}
       <div className="categories">
@@ -59,7 +70,7 @@ function MovieList() {
       ) : (
         <div>
           <div className="grid">
-            {filteredMovies.map((movie) => (
+            {movies.map((movie) => (
               <MovieCard key={movie.id} movie={movie} />
             ))}
           </div>

@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { WishlistContext } from "../context/WishlistProvider.jsx";
 import MovieCard from "../components/MovieCard.jsx";
-import SearchBar from "../components/SearchBar.jsx";
+import LocalSearchBar from "../components/LocalSearchBar.jsx";
 import Pagination from "../components/Pagination.jsx";
 import "../styles/Wishlist.css"
 
@@ -24,11 +24,11 @@ function Wishlist() {
 
   return (
     <div className="container">
-      <SearchBar
+      <LocalSearchBar
         value={search}
         onChange={(value) => {
           setSearch(value);
-          setPage(1); // reset page si recherche modifiée
+          setPage(1);
         }}
       />
 
