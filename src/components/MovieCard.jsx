@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import BoutonWishlist from "../components/BoutonWishlist.jsx";
 import styles from "../styles/MovieCard.module.css";
 
 const MovieCard = ({ movie }) => {
@@ -8,6 +9,7 @@ const MovieCard = ({ movie }) => {
 
   return (
     <div className={styles.card}>
+      <BoutonWishlist movie={movie} />
       <img
         src={imageUrl}
         alt={movie.title}

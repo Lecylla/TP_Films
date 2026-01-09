@@ -1,20 +1,16 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { WishlistContext } from "../context/WishlistProvider";
+import BoutonWishlist from "../components/BoutonWishlist.jsx";
 import MovieCard from "../components/MovieCard.jsx";
 import styles from "../styles/MovieDetail.module.css";
 import { API_KEY, BASE_URL } from '../api/constantes.js'
 
 function MovieDetail() {
   const { id } = useParams();
-  const { wishlist, addToWishlist, removeFromWishlist } = useContext(WishlistContext);
-
   const [movie, setMovie] = useState(null);
   const [cast, setCast] = useState([]);
   const [similarMovies, setSimilarMovies] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const isInWishlist = wishlist.some((item) => item.id === Number(id));
 
   useEffect(() => {
     fetchMovieDetails();
@@ -62,16 +58,10 @@ function MovieDetail() {
           <p>{movie.overview}</p>
           <p><strong>Date de sortie :</strong> {movie.release_date}</p>
           <p><strong>Note :</strong> ⭐ {movie.vote_average}</p>
-
-          {isInWishlist ? (
-            <button onClick={() => removeFromWishlist(movie.id)}>
-              Retirer de la wishlist
-            </button>
-          ) : (
-            <button onClick={() => addToWishlist(movie)}>
-              Ajouter à la wishlist
-            </button>
-          )}
+          
+          <div className={styles.detailsBouton}>
+            <BoutonWishlist movie={movie} />
+          </div>
         </div>
       </div>
 

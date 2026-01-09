@@ -1,0 +1,15 @@
+.btnwishlist {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  padding: 0;
+  color: white;
+}
+
+.btnwishlist:hover {
+  transform: scale(1.1);
+}

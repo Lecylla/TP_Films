@@ -28,12 +28,6 @@ function Wishlist() {
           {filteredWishlist.map((movie) => (
             <div key={movie.id} className={styles.cardWrapper}>
               <MovieCard movie={movie} />
-              <button
-                className={styles.removeButton}
-                onClick={() => removeFromWishlist(movie.id)}
-              >
-                Supprimer
-              </button>
             </div>
           ))}
         </div>
